@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.3.js"
+    integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+    crossorigin="anonymous"></script> 
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Anybody:ital@1&family=Poppins&display=swap');
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-image: url('../Assets/slider/2.png');
+            font-family:'Poppins';
+        }
+        .navbar{
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            background-color: cadetblue;
+            padding: 10px;
+        }
+        .navbar a{
+            color: #fff;
+            text-decoration: none;
+        }
+        .logo{
+            margin-right: 50px;
+        }
+        .list{
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+        #toogler,
+        navbar label{
+            display: none;
+        } 
+ /* === removing default button style ===*/
+.button {
+    margin: 0;
+    height: auto;
+    background: transparent;
+    padding: 0;
+    border: none;
+} 
+  /* button styling */
+.button {
+    --border-right: 6px;
+    --text-stroke-color: rgba(255,255,255,0.6);
+    --animation-color: #2b23c9;
+    --fs-size: 2em;
+    letter-spacing: 3px;
+    text-decoration: none;
+    font-size: var(--fs-size);
+    font-family: "Anybody";
+    position: relative;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+  /* this is the text, when you hover on button */
+.hover-text {
+    position: absolute;
+    box-sizing: border-box;
+    content: attr(data-text);
+    color: var(--animation-color);
+    width: 0%;
+    inset: 0;
+    border-right: var(--border-right) solid var(--animation-color);
+    overflow: hidden;
+    transition: 0.5s;
+    -webkit-text-stroke: 1px var(--animation-color);
+}
+  /* hover */
+.button:hover .hover-text {
+    width: 100%;
+    filter: drop-shadow(0 0 23px var(--animation-color))
+}
+        .content{
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+        table{
+            border-collapse: collapse;
+        }
+        thead{
+            background-color:brown;
+            border: 1px solid #000;
+        }
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+        <div class="logo">
+            <button data-text="Awesome" class="button">
+                <span class="actual-text">&nbsp;TeachMe&nbsp;</span>
+                <span class="hover-text" aria-hidden="true">&nbsp;TeachMe&nbsp;</span>
+            </button>
+        </div>
+        <label for="toggler"><i class="ri-menu-line"></i></label> 
+        <div class="hdr">
+            <ul class="list">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="./src/main.html">Profile</a></li>
+            </ul>
+        </div>
+        </nav>
+<div class="content">
+    <table cellspadding="5px" border="1px" width="100%" >
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Username</th>
+                <th colspan="2">Address</th>
+                <th>E-Mail</th>
+                <th>Phone</th>
+                <th>Website</th>
+                <th>Company</th>
+                <th>catchPhrase</th>
+                <th>bs</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script>
+    const tbody = document.querySelector('tbody');
+    let usersData = [];
+    const loadData = async () =>     {
+        try{
+            const url = await fetch('https://jsonplaceholder.typicode.com/users')
+            usersData = await url.json()
+            console.log(usersData)
+            loadUserData(usersData);
+        }catch (err){
+
+        }
+    }
+
+    const loadUserData = (data) => {
+        const output = data.map((datas) =>{
+            return`
+                <tr>
+                    <td>${datas.id}</td>
+                    <td>${datas.name}</td>
+                    <td>${datas.username}</td>
+                    <td colspan="2">${datas.address.street}</td>
+                    <td>${datas.email}</td>
+                    <td>${datas.phone}</td>
+                    <td><a href="https://abtei-st-hildegard.de/hildegard-von-bingen/">${datas.website}</a></td>
+                    <td>${datas.company.name}</td>
+                    <td>${datas.company.bs}</td>
+                    <td>${datas.company.catchPhrase}</td>
+                </tr>
+                `
+        }).join('')
+        tbody.innerHTML = output;
+    }
+    loadData();
+</script>
+</body>
+</html>
